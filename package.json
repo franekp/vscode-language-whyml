@@ -1,0 +1,26 @@
+{
+    "name": "language-whyml",
+    "displayName": "WhyML",
+    "description": "Syntax highlighting for WhyML.",
+    "version": "0.0.1",
+    "publisher": "franekp",
+    "engines": {
+        "vscode": "^1.15.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "whyml",
+            "aliases": ["WhyML", "whyml", "why"],
+            "extensions": [".mlw",".why"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "whyml",
+            "scopeName": "source.whyml",
+            "path": "./syntaxes/whyml.tmLanguage.json"
+        }]
+    }
+}

@@ -1,0 +1,350 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "WhyML",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#assertions"
+    },
+    {
+      "include": "#constructors"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#definitions"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#builtins"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "\\(\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.whyml"
+            }
+          },
+          "end": "\\*\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.whyml"
+            }
+          },
+          "name": "comment.block.whyml",
+          "patterns": [
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(abstract|axiom|by|clone|coinductive|constant|end|exception|export|function|goal|ghost|import|inductive|lemma|meta|mutable|module|namespace|predicate|private|so|theory|type|use|val|with)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          }
+        },
+        {
+          "match": "(->|/\\\\|\\\\/|&&|\\|\\||<->|:)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          }
+        },
+        {
+          "match": "\\b(begin|do|done|downto|else|exists|for|forall|if|in|let|loop|match|raise|rec|then|to|try|while|loop)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          }
+        },
+        {
+          "match": "\\b(absurd|assert|assume|diverges|ensures|check|invariant|raises|reads|requires|returns|variant|writes)\\b",
+          "captures": {
+            "1": {
+              "name": "entity.other.attribute-name"
+            }
+          }
+        }
+      ]
+    },
+    "constructors": {
+      "patterns": [
+        {
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": {
+              "name": "string.unquoted.whyml"
+            }
+          }
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "match": "(true|false)",
+          "captures": {
+            "1": {
+              "name": "constant.language.whyml"
+            }
+          }
+        },
+        {
+          "match": "\\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))",
+          "name": "constant.numeric.integer.why"
+        },
+        {
+          "begin": "(?=[^\\\\])(\")",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.whyml"
+            }
+          },
+          "end": "(\")",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.end.whyml"
+            }
+          },
+          "name": "string.quoted.double.whyml",
+          "patterns": [
+            {
+              "match": "\\\\$[ \\t]*",
+              "name": "punctuation.separator.string.ignore-eol.whyml"
+            },
+            {
+              "match": "\\\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\\d\\d|[bnrt'\"\\\\])",
+              "name": "constant.character.string.escape.whyml"
+            },
+            {
+              "match": "\\\\[\\|\\(\\)1-9$^.*+?\\[\\]]",
+              "name": "constant.character.regexp.escape.whyml"
+            },
+            {
+              "match": "\\\\(?!(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\\d\\d|[bnrt'\"\\\\]|[\\|\\(\\)1-9$^.*+?\\[\\]]|$[ \\t]*))(?:.)",
+              "name": "invalid.illegal.character.string.escape"
+            }
+          ]
+        },
+        {
+          "match": "\\b(not|length|mem|reverse)\\b",
+          "captures": {
+            "1": {
+              "name": "support.function.whyml"
+            }
+          }
+        },
+        {
+          "match": "\\b(result|old|at)\\b",
+          "captures": {
+            "1": {
+              "name": "support.variable.whyml"
+            }
+          }
+        },
+        {
+          "match": "\\b(array|bool|int|list|map|option|real|ref|unit)\\b",
+          "captures": {
+            "1": {
+              "name": "support.function.whyml"
+            }
+          }
+        },
+        {
+          "match": "((?:=|\\<|\\>|~|\\+|-|\\*|/|%|!|\\$|\\&|\\?|@|\\^|\\.|:|\\||#)+)",
+          "captures": {
+            "1": {
+              "name": "support.function.whyml"
+            }
+          }
+        }
+      ]
+    },
+    "definitions": {
+      "patterns": [
+        {
+          "match": "(let(?:\\s+rec(?:\\s+lemma)?)?|predicate|function|lemma|axiom|inductive)\\s+([a-zA-Z0-9_]+)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "entity.name.function"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(\\|)\\s*([A-Za-z0-9_]+)\\s*(:)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "entity.name.function"
+            },
+            "3": {
+              "name": "keyword.control.whyml"
+            }
+          }
+        },
+        {
+          "match": "^\\s*(\\|)\\s*([A-Z][A-Za-z0-9_]*)\\s+((?:[a-zA-Z0-9_]+\\s*)*)(->)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "string.unquoted.whyml"
+            },
+            "3": {
+              "name": "variable.other.whyml"
+            },
+            "4": {
+              "name": "keyword.control.whyml"
+            }
+          }
+        },
+        {
+          "match": "(type)\\s+([A-Za-z0-9_]+)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "entity.name.type.whyml"
+            }
+          }
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "begin": "(forall|exists)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          },
+          "end": "(\\.)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          },
+          "contentName": "variable.other.whyml",
+          "patterns": [
+            {
+              "match": "(:)([^,\\.]+)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.whyml"
+                },
+                "2": {
+                  "name": "entity.name.type.whyml"
+                }
+              }
+            },
+            {
+              "match": ",",
+              "name": "keyword.control.whyml"
+            }
+          ]
+        },
+        {
+          "match": "\\(\\s*([A-Za-z0-9_]+\\s*)(:)([^\\)\\(=]+)\\)",
+          "captures": {
+            "1": {
+              "name": "variable.other.whyml"
+            },
+            "2": {
+              "name": "keyword.control.whyml"
+            },
+            "3": {
+              "name": "entity.name.type.whyml"
+            }
+          }
+        },
+        {
+          "match": "(:)([^\\)\\(=]+)\\s=",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "entity.name.type.whyml"
+            }
+          }
+        },
+        {
+          "match": "(?<=\\))\\s*(:)([^\\)\\(=]+)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            },
+            "2": {
+              "name": "entity.name.type.whyml"
+            }
+          }
+        }
+      ]
+    },
+    "assertions": {
+      "patterns": [
+        {
+          "begin": "\\b(assert|assume|ensures|check|invariant|raises|reads|requires|returns|variant|writes)\\s*(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.other.attribute-name"
+            },
+            "2": {
+              "name": "keyword.control.whyml"
+            }
+          },
+          "end": "(\\})",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.whyml"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#constructors"
+            },
+            {
+              "include": "#types"
+            },
+            {
+              "include": "#keywords"
+            },
+            {
+              "include": "#builtins"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "scopeName": "source.whyml"
+}
